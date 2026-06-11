@@ -1,0 +1,18 @@
+[
+  {"codigo": "EM13MAT101", "descricao": "Interpretar criticamente situações econômicas, sociais e fatos relativos às Ciências da Natureza que envolvam a variação de grandezas, pela análise de gráficos, tabelas e relações algébricas."},
+  {"codigo": "EM13MAT104", "descricao": "Interpretar taxas e índices de natureza socioeconômica, investigando os processos de cálculo desses números, para analisar criticamente a realidade e produzir argumentos."},
+  {"codigo": "EM13MAT203", "descricao": "Aplicar conceitos matemáticos no planejamento, na execução e na análise de ações envolvendo a utilização de aplicativos e a criação de planilhas."},
+  {"codigo": "EM13MAT301", "descricao": "Resolver e elaborar problemas do cotidiano, da Matemática e de outras áreas do conhecimento, que envolvem equações lineares simultâneas, usando técnicas algébricas e gráficas."},
+  {"codigo": "EM13MAT302", "descricao": "Construir modelos empregando as funções polinomiais de 1º ou 2º graus, para resolver problemas em contextos diversos, com ou sem apoio de tecnologias digitais."},
+  {"codigo": "EM13MAT303", "descricao": "Interpretar e comparar situações que envolvam juros simples com as que envolvem juros compostos, por meio de representações gráficas e análise de planilhas."},
+  {"codigo": "EM13MAT304", "descricao": "Resolver e elaborar problemas com funções exponenciais nos quais seja necessário compreender e interpretar a variação das grandezas envolvidas."},
+  {"codigo": "EM13MAT305", "descricao": "Resolver e elaborar problemas com funções logarítmicas nos quais seja necessário compreender e interpretar a variação das grandezas envolvidas."},
+  {"codigo": "EM13MAT306", "descricao": "Resolver e elaborar problemas em contextos que envolvem fenômenos periódicos reais e comparar suas representações com as funções seno e cosseno."},
+  {"codigo": "EM13MAT308", "descricao": "Aplicar as relações métricas, incluindo as leis do seno e do cosseno ou as relações de proporcionalidade, na resolução de problemas envolvendo triângulos."},
+  {"codigo": "EM13MAT401", "descricao": "Converter representações algébricas de funções polinomiais de 1º grau em representações geométricas no plano cartesiano, distinguindo casos de retas paralelas e perpendiculares."},
+  {"codigo": "EM13MAT402", "descricao": "Converter representações algébricas de funções polinomiais de 2º grau em representações geométricas no plano cartesiano, distinguindo concavidade, vértice, zeros e eixo de simetria."},
+  {"codigo": "EM13MAT406", "descricao": "Construir e interpretar tabelas e gráficos de frequências com base em dados obtidos em pesquisas, usando medidas de tendência central (média, moda e mediana) e de dispersão (amplitude e desvio padrão)."},
+  {"codigo": "EM13MAT507", "descricao": "Identificar e descrever o espaço amostral de eventos aleatórios, realizando contagem das possibilidades, para resolver e elaborar problemas que envolvem o cálculo da probabilidade."},
+  {"codigo": "EM13MAT510", "descricao": "Investigar conjuntos de dados relativos ao comportamento de duas variáveis numéricas, usando ou não tecnologias da informação, e estimar regularidades ou tendências."},
+  {"codigo": "EM13MAT511", "descricao": "Reconhecer a existência de diferentes tipos de espaços amostrais, discretos ou não, e de eventos, e usar processos de contagem como o princípio multiplicativo, arranjos, combinações e permutações."}
+]
