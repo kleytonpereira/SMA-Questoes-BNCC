@@ -4,6 +4,7 @@ from typing import TypedDict
 class EstadoQuestao(TypedDict):
     tema: str
     tentativas: int
+    ciclos: int
     questao: dict
     quality_passed: bool
     motivo_rejeicao: str

@@ -1,21 +1,27 @@
 """Configuração central do SMA. Lê variáveis de ambiente do .env."""
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+_PROJECT_ROOT = Path(__file__).parent
+load_dotenv(_PROJECT_ROOT / ".env")
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
 GENERATOR_MODEL = os.getenv("GENERATOR_MODEL", "qwen2.5:7b")
-EVALUATOR_MODEL = os.getenv("EVALUATOR_MODEL", "qwen2.5:7b")
+EVALUATOR_MODEL = os.getenv("EVALUATOR_MODEL", "qwen3:8b")
+STRONG_EVALUATOR_MODEL = os.getenv("STRONG_EVALUATOR_MODEL", "gemma4:12b")
 ORGANIZER_MODEL = os.getenv("ORGANIZER_MODEL", "qwen2.5:7b")
 
-# Temperaturas: Gerador criativo, Avaliador e Organizador precisos
+# Temperaturas: Gerador criativo, Avaliadores e Organizador precisos
 GENERATOR_TEMPERATURE = 0.7
 EVALUATOR_TEMPERATURE = 0.1
+STRONG_EVALUATOR_TEMPERATURE = 0.1
 ORGANIZER_TEMPERATURE = 0.1
 
-# Número máximo de gerações antes de entregar mesmo sem aprovação
+# Tentativas regulares por ciclo antes de acionar o avaliador forte
 MAX_TENTATIVAS = 3
+# Ciclos completos (regular + forte) antes de entregar com aviso
+MAX_CICLOS = 2
 
-BNCC_DATA_PATH = "data/bncc_matematica.json"
+BNCC_DATA_PATH = str(_PROJECT_ROOT / "data" / "bncc_matematica.json")

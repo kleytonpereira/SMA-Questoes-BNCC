@@ -1,5 +1,5 @@
 from langchain_core.runnables import RunnableLambda
-from agents.avaliador import build_avaliador_messages, make_avaliador_node
+from agents.avaliador import build_avaliador_messages, make_avaliador_node, make_avaliador_final_node
 from agents.schemas import Avaliacao
 
 QUESTAO = {
@@ -29,3 +29,27 @@ def test_avaliador_node_reprovada_propaga_motivo():
     update = node({"tema": "funções", "questao": QUESTAO})
     assert update["quality_passed"] is False
     assert update["motivo_rejeicao"] == "Gabarito incorreto"
+
+
+# --- avaliador_final ---
+
+def test_avaliador_final_aprovada_nao_altera_ciclos():
+    fake_llm = RunnableLambda(lambda _: Avaliacao(quality_passed=True, motivo="OK"))
+    node = make_avaliador_final_node(fake_llm)
+    update = node({"tema": "funções", "questao": QUESTAO, "ciclos": 0, "tentativas": 3})
+    assert update["quality_passed"] is True
+    assert "ciclos" not in update
+
+def test_avaliador_final_reprovada_incrementa_ciclos_e_zera_tentativas():
+    fake_llm = RunnableLambda(lambda _: Avaliacao(quality_passed=False, motivo="Gabarito errado"))
+    node = make_avaliador_final_node(fake_llm)
+    update = node({"tema": "funções", "questao": QUESTAO, "ciclos": 0, "tentativas": 3})
+    assert update["quality_passed"] is False
+    assert update["ciclos"] == 1
+    assert update["tentativas"] == 0
+
+def test_avaliador_final_reprovada_acumula_ciclos():
+    fake_llm = RunnableLambda(lambda _: Avaliacao(quality_passed=False, motivo="Erro"))
+    node = make_avaliador_final_node(fake_llm)
+    update = node({"tema": "funções", "questao": QUESTAO, "ciclos": 1, "tentativas": 3})
+    assert update["ciclos"] == 2
