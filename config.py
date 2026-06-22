@@ -24,4 +24,11 @@ MAX_TENTATIVAS = 3
 # Ciclos completos (regular + forte) antes de entregar com aviso
 MAX_CICLOS = 2
 
+# Auto-consistência numérica (agente verificador)
+VERIFIER_SAMPLES = int(os.getenv("VERIFIER_SAMPLES", "3"))
+VERIFIER_TEMPERATURE = float(os.getenv("VERIFIER_TEMPERATURE", "0.7"))
+
+# Regra opcional de termos absolutos no validador de regras (desligada por padrão)
+REGRA_TERMOS_ABSOLUTOS = os.getenv("REGRA_TERMOS_ABSOLUTOS", "false").lower() == "true"
+
 BNCC_DATA_PATH = str(_PROJECT_ROOT / "data" / "bncc_matematica.json")

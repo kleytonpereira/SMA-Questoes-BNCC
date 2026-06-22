@@ -46,3 +46,17 @@ def test_format_questao_inclui_enunciado_e_alternativas():
     assert "B) 4" in texto
     assert "C) 5" in texto
     assert "D) 6" in texto
+
+
+def test_resolucao_valida():
+    from agents.schemas import Resolucao
+    r = Resolucao(alternativa="B")
+    assert r.alternativa == "B"
+
+
+def test_resolucao_rejeita_letra_invalida():
+    import pytest
+    from pydantic import ValidationError
+    from agents.schemas import Resolucao
+    with pytest.raises(ValidationError):
+        Resolucao(alternativa="Z")

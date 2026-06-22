@@ -19,6 +19,11 @@ class Classificacao(BaseModel):
     codigo_bncc: str = Field(description="Código da habilidade, ex: EM13MAT302")
     descricao_habilidade: str = Field(description="Descrição da habilidade classificada")
 
+class Resolucao(BaseModel):
+    alternativa: Literal["A", "B", "C", "D"] = Field(
+        description="Letra da única alternativa correta após resolver o problema"
+    )
+
 def format_questao(questao: dict) -> str:
     return (f"{questao['enunciado']}\nA) {questao['alternativa_a']}\n"
             f"B) {questao['alternativa_b']}\nC) {questao['alternativa_c']}\n"
