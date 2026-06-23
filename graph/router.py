@@ -25,3 +25,29 @@ def decide_apos_avaliador_final(state: dict) -> Literal["gerador", "organizador"
     if state.get("ciclos", 0) < config.MAX_CICLOS:
         return "gerador"
     return "organizador"
+
+
+def decide_apos_validador(state: dict) -> Literal["gerador", "verificador"]:
+    """Após o validador de regras:
+    - Regras OK → verificador
+    - Regras falharam e ainda há tentativas → gerador
+    - Regras falharam e tentativas esgotadas → verificador (camadas seguintes julgam)
+    """
+    if state.get("regras_passed"):
+        return "verificador"
+    if state["tentativas"] >= config.MAX_TENTATIVAS:
+        return "verificador"
+    return "gerador"
+
+
+def decide_apos_verificador(state: dict) -> Literal["gerador", "avaliador"]:
+    """Após o verificador (auto-consistência):
+    - Aprovado → avaliador
+    - Reprovado e ainda há tentativas → gerador
+    - Reprovado e tentativas esgotadas → avaliador
+    """
+    if state["quality_passed"]:
+        return "avaliador"
+    if state["tentativas"] >= config.MAX_TENTATIVAS:
+        return "avaliador"
+    return "gerador"
