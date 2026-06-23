@@ -5,6 +5,7 @@ class EstadoQuestao(TypedDict):
     tema: str
     tentativas: int
     ciclos: int
+    regras_passed: bool
     questao: dict
     quality_passed: bool
     motivo_rejeicao: str

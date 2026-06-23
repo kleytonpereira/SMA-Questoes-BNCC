@@ -1,14 +1,17 @@
 from graph.state import EstadoQuestao
 
 def test_estado_aceita_campos_esperados():
+    from graph.state import EstadoQuestao
     estado: EstadoQuestao = {
-        "tema": "funções do 2º grau",
+        "tema": "funções",
         "tentativas": 0,
+        "ciclos": 0,
+        "regras_passed": False,
         "questao": {},
         "quality_passed": False,
         "motivo_rejeicao": "",
         "habilidade_bncc": "",
         "descricao_bncc": "",
     }
-    assert estado["tema"] == "funções do 2º grau"
-    assert estado["tentativas"] == 0
+    assert estado["regras_passed"] is False
+    assert estado["tema"] == "funções"
