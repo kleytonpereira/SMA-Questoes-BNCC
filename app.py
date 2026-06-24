@@ -39,7 +39,7 @@ ROTULOS = {
 
 st.title("📘 Gerador de Questões BNCC")
 st.caption(
-    "Sistema Multiagente (Gerador → Avaliador → Avaliador Final → Organizador) · Matemática · Ensino Médio"
+    "Sistema Multiagente (Gerador → Validador → Verificador → Avaliador → Avaliador Final → Organizador) · Matemática · Ensino Médio"
 )
 
 tema = st.text_input(

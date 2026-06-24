@@ -49,3 +49,22 @@ EVALUATOR_MODEL=qwen2.5:14b
 [entrada] → [gerador] → [avaliador] → (aprovada?) → [organizador] → [saída]
                 ↑___________(reprovada, tentativas < 3)
 ```
+
+## Pipeline de agentes (precisão)
+
+`gerador → validador_regras → verificador → avaliador → avaliador_final → organizador`
+
+- **validador_regras** — checagem determinística de item-writing flaws (sem custo de tokens): gabarito válido, alternativas não-vazias/duplicadas, sem "todas/nenhuma das anteriores", e sem pista de tamanho na alternativa correta.
+- **verificador** — auto-consistência: re-resolve o problema N vezes (voto majoritário) e compara com o gabarito proposto.
+- **avaliador** — revisão chain-of-thought (modelo regular).
+- **avaliador_final** — segunda opinião obrigatória com modelo mais forte.
+- **organizador** — classificação na habilidade BNCC.
+
+Falha em qualquer camada antes do organizador devolve a questão ao gerador, respeitando `MAX_TENTATIVAS`.
+
+Variáveis relevantes no `.env`: `VERIFIER_SAMPLES` (nº de re-soluções), `VERIFIER_TEMPERATURE`, `REGRA_TERMOS_ABSOLUTOS`.
+
+### Fundamentação
+- Generating AI Literacy MCQs: A Multi-Agent LLM Approach (arXiv 2412.00970)
+- ReQUESTA: Hybrid Agentic Framework for MCQ Generation
+- When AIs Judge AIs: Agent-as-a-Judge (arXiv 2508.02994)
