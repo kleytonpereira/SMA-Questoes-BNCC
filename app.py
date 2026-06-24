@@ -19,6 +19,7 @@ def estado_inicial(tema: str) -> dict:
         "tema": tema,
         "tentativas": 0,
         "ciclos": 0,
+        "regras_passed": False,
         "questao": {},
         "quality_passed": False,
         "motivo_rejeicao": "",
@@ -29,8 +30,10 @@ def estado_inicial(tema: str) -> dict:
 
 ROTULOS = {
     "gerador": "✍️ Gerando questão...",
-    "avaliador": "🔍 Avaliando qualidade (qwen3:8b)...",
-    "avaliador_final": "🧠 Avaliação final (gemma4:12b)...",
+    "validador_regras": "📋 Checando regras estruturais...",
+    "verificador": "🔢 Verificando consistência numérica...",
+    "avaliador": "🔍 Avaliando qualidade...",
+    "avaliador_final": "🧠 Avaliação final (modelo forte)...",
     "organizador": "🏷️ Classificando pela BNCC...",
 }
 
