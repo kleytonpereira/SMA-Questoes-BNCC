@@ -50,7 +50,7 @@ def build_workflow(gerador_node, validador_regras_node, verificador_node,
 
 def create_app():
     """Cria a aplicação com os agentes reais (Ollama). Usada pela interface."""
-    from agents.llm_factory import make_llm
+    from agents.llm_factory import make_structured_llm
     from agents.schemas import Questao, Avaliacao, Classificacao, Resolucao
     from agents.gerador import make_gerador_node
     from agents.validador_regras import make_validador_regras_node
@@ -59,23 +59,25 @@ def create_app():
     from agents.organizador import make_organizador_node
     from bncc.loader import load_habilidades, format_habilidades
 
-    gen_llm = make_llm(config.GENERATOR_MODEL, config.GENERATOR_TEMPERATURE)
-    eval_llm = make_llm(config.EVALUATOR_MODEL, config.EVALUATOR_TEMPERATURE)
-    strong_eval_llm = make_llm(config.STRONG_EVALUATOR_MODEL, config.STRONG_EVALUATOR_TEMPERATURE)
-    org_llm = make_llm(config.ORGANIZER_MODEL, config.ORGANIZER_TEMPERATURE)
-    verif_llm = make_llm(config.GENERATOR_MODEL, config.VERIFIER_TEMPERATURE)
-
     habilidades_texto = format_habilidades(load_habilidades(config.BNCC_DATA_PATH))
 
-    gerador = make_gerador_node(gen_llm.with_structured_output(Questao))
+    gerador = make_gerador_node(
+        make_structured_llm(config.GENERATOR_MODEL, config.GENERATOR_TEMPERATURE, Questao)
+    )
     validador_regras = make_validador_regras_node()
     verificador = make_verificador_node(
-        verif_llm.with_structured_output(Resolucao), config.VERIFIER_SAMPLES
+        make_structured_llm(config.GENERATOR_MODEL, config.VERIFIER_TEMPERATURE, Resolucao),
+        config.VERIFIER_SAMPLES,
     )
-    avaliador = make_avaliador_node(eval_llm.with_structured_output(Avaliacao))
-    avaliador_final = make_avaliador_final_node(strong_eval_llm.with_structured_output(Avaliacao))
+    avaliador = make_avaliador_node(
+        make_structured_llm(config.EVALUATOR_MODEL, config.EVALUATOR_TEMPERATURE, Avaliacao)
+    )
+    avaliador_final = make_avaliador_final_node(
+        make_structured_llm(config.STRONG_EVALUATOR_MODEL, config.STRONG_EVALUATOR_TEMPERATURE, Avaliacao)
+    )
     organizador = make_organizador_node(
-        org_llm.with_structured_output(Classificacao), habilidades_texto
+        make_structured_llm(config.ORGANIZER_MODEL, config.ORGANIZER_TEMPERATURE, Classificacao),
+        habilidades_texto,
     )
     return build_workflow(
         gerador, validador_regras, verificador, avaliador, avaliador_final, organizador
