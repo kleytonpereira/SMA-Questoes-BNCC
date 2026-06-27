@@ -21,10 +21,10 @@ def build_verificador_messages(questao: dict) -> list:
 
 def make_verificador_node(structured_llm, n_samples: int):
     """Devolve a função-nó do verificador. Re-resolve n_samples vezes e vota."""
-    def verificador_node(state: dict) -> dict:
+    def verificador_node(state: dict, config=None) -> dict:
         questao = state["questao"]
         msgs = build_verificador_messages(questao)
-        votos = [structured_llm.invoke(msgs).alternativa for _ in range(n_samples)]
+        votos = [structured_llm.invoke(msgs, config=config).alternativa for _ in range(n_samples)]
         vencedora, _ = Counter(votos).most_common(1)[0]
         gabarito = questao["gabarito"]
         if vencedora == gabarito:

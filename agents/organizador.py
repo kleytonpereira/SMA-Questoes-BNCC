@@ -18,9 +18,9 @@ def build_organizador_messages(questao: dict, habilidades_texto: str) -> list:
     return [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=humano)]
 
 def make_organizador_node(structured_llm, habilidades_texto: str):
-    def organizador_node(state: dict) -> dict:
+    def organizador_node(state: dict, config=None) -> dict:
         msgs = build_organizador_messages(state["questao"], habilidades_texto)
-        classificacao = structured_llm.invoke(msgs)
+        classificacao = structured_llm.invoke(msgs, config=config)
         return {
             "habilidade_bncc": classificacao.codigo_bncc,
             "descricao_bncc": classificacao.descricao_habilidade,

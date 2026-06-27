@@ -84,8 +84,23 @@ if st.button("Gerar Questão" if num_questoes == 1 else f"Gerar {num_questoes} Q
 
         try:
             estado_final = None
+            trace_config = {
+                "run_name": f"gerar_questao: {tema.strip()}",
+                # Pior caso ~27 nós (MAX_CICLOS×MAX_TENTATIVAS×4 + avaliadores + organizador);
+                # o padrão do LangGraph é 25 e estoura GraphRecursionError. Folga explícita:
+                "recursion_limit": 50,
+                "tags": ["sma-questoes", f"gen={config.GENERATOR_MODEL}"],
+                "metadata": {
+                    "tema": tema.strip(),
+                    "questao_idx": i + 1,
+                    "generator_model": config.GENERATOR_MODEL,
+                    "evaluator_model": config.EVALUATOR_MODEL,
+                    "strong_evaluator_model": config.STRONG_EVALUATOR_MODEL,
+                    "organizer_model": config.ORGANIZER_MODEL,
+                },
+            }
             with st.status(f"Executando agentes{'...' if num_questoes == 1 else f' (questão {i+1})'}...", expanded=True) as status:
-                for evento in app.stream(estado_inicial(tema.strip())):
+                for evento in app.stream(estado_inicial(tema.strip()), config=trace_config):
                     for no, update in evento.items():
                         st.write(ROTULOS.get(no, no))
                         estado_final = {**(estado_final or {}), **update}

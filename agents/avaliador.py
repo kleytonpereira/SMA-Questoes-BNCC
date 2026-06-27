@@ -18,7 +18,9 @@ SYSTEM_PROMPT = (
     "2. As alternativas erradas são plausíveis (erros comuns do aluno).\n"
     "3. A linguagem é adequada ao Ensino Médio.\n"
     "4. A questão corresponde ao tema solicitado.\n"
-    "5. O enunciado é claro e sem ambiguidade.\n\n"
+    "5. O enunciado é claro e sem ambiguidade.\n"
+    "6. A questão NÃO é tautológica nem trivial: exige cálculo ou raciocínio real e o "
+    "enunciado não contém a própria resposta.\n\n"
     "Só aprove (quality_passed=true) se TODOS os critérios forem atendidos E "
     "seu próprio cálculo confirmar o gabarito. "
     "Caso contrário, reprove e descreva EXATAMENTE qual critério falhou no campo 'motivo'."
@@ -39,9 +41,9 @@ def build_avaliador_messages(tema: str, questao: dict) -> list:
 
 def make_avaliador_node(structured_llm):
     """Devolve a função-nó do Avaliador regular."""
-    def avaliador_node(state: dict) -> dict:
+    def avaliador_node(state: dict, config=None) -> dict:
         msgs = build_avaliador_messages(state["tema"], state["questao"])
-        avaliacao = structured_llm.invoke(msgs)
+        avaliacao = structured_llm.invoke(msgs, config=config)
         return {
             "quality_passed": avaliacao.quality_passed,
             "motivo_rejeicao": "" if avaliacao.quality_passed else avaliacao.motivo,
@@ -53,9 +55,9 @@ def make_avaliador_final_node(structured_llm):
     """Devolve a função-nó do Avaliador final (modelo forte).
     Se rejeitar: incrementa ciclos e zera tentativas para reiniciar o ciclo.
     """
-    def avaliador_final_node(state: dict) -> dict:
+    def avaliador_final_node(state: dict, config=None) -> dict:
         msgs = build_avaliador_messages(state["tema"], state["questao"])
-        avaliacao = structured_llm.invoke(msgs)
+        avaliacao = structured_llm.invoke(msgs, config=config)
         update = {
             "quality_passed": avaliacao.quality_passed,
             "motivo_rejeicao": "" if avaliacao.quality_passed else avaliacao.motivo,

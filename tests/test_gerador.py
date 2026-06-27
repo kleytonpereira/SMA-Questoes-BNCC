@@ -5,6 +5,7 @@ from agents.schemas import Questao
 def questao_fake() -> Questao:
     return Questao(
         enunciado="Qual o vértice de y=x²?",
+        resolucao="y=x² tem a=1, b=0, c=0; x do vértice = -b/2a = 0; y(0)=0.",
         alternativa_a="(0,0)", alternativa_b="(1,1)",
         alternativa_c="(0,1)", alternativa_d="(1,0)",
         gabarito="A", explicacao="O vértice de y=x² é a origem.",

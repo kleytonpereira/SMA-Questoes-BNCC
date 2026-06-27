@@ -60,6 +60,20 @@ def validar_regras(questao: dict, checar_termos_absolutos: bool = False) -> tupl
             if termo in texto_completo:
                 return False, f"Uso de termo absoluto ('{termo.strip()}')."
 
+    # Regra 7: questão tautológica — a alternativa correta aparece literalmente no
+    # enunciado, dispensando cálculo. O corte de 6 caracteres evita falso-positivo
+    # com respostas curtas (ex.: '2') que coincidam com números do enunciado.
+    def _sem_espacos(s: str) -> str:
+        return "".join(s.split()).lower()
+
+    correta_norm = _sem_espacos(alternativas[gabarito])
+    enunciado_norm = _sem_espacos(questao.get("enunciado", ""))
+    if len(correta_norm) >= 6 and correta_norm in enunciado_norm:
+        return False, (
+            "Questão tautológica: a alternativa correta aparece literalmente no "
+            "enunciado, dispensando qualquer cálculo ou raciocínio."
+        )
+
     return True, ""
 
 

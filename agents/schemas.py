@@ -4,6 +4,13 @@ from pydantic import BaseModel, Field
 
 class Questao(BaseModel):
     enunciado: str = Field(description="Enunciado completo da questão")
+    resolucao: str = Field(
+        description=(
+            "Resolução do problema do zero, passo a passo, com os cálculos. "
+            "Preencha este campo ANTES de decidir o gabarito, para garantir que a "
+            "alternativa correta está de fato certa."
+        )
+    )
     alternativa_a: str = Field(description="Texto da alternativa A")
     alternativa_b: str = Field(description="Texto da alternativa B")
     alternativa_c: str = Field(description="Texto da alternativa C")

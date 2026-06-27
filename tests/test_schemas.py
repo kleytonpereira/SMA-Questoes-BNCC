@@ -6,6 +6,7 @@ from agents.schemas import Questao, Avaliacao, Classificacao, format_questao
 def make_questao(**kw):
     base = dict(
         enunciado="Qual o valor de 2+2?",
+        resolucao="2+2=4, logo a resposta é 4.",
         alternativa_a="3",
         alternativa_b="4",
         alternativa_c="5",

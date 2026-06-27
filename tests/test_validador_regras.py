@@ -48,6 +48,35 @@ def test_correta_muito_mais_longa_reprova():
     assert passou is False
     assert "longa" in motivo.lower()
 
+def test_questao_tautologica_reprova():
+    """O enunciado contém a própria resposta (alternativa correta) — questão trivial."""
+    q = {
+        "enunciado": "Qual é a equação que representa a função f(x) = 2x + 5?",
+        "alternativa_a": "f(x) = 2x + 5",
+        "alternativa_b": "f(x) = 5x + 2",
+        "alternativa_c": "f(x) = 2x - 5",
+        "alternativa_d": "f(x) = 5x - 2",
+        "gabarito": "A",
+        "explicacao": "A equação da função é f(x) = 2x + 5.",
+    }
+    passou, motivo = validar_regras(q)
+    assert passou is False
+    assert "tautol" in motivo.lower()
+
+
+def test_resposta_numerica_curta_no_enunciado_nao_eh_falso_positivo():
+    """Uma resposta curta (ex.: '2') que aparece no enunciado NÃO é tautologia:
+    ainda exige resolver a equação."""
+    q = {
+        "enunciado": "Qual é a raiz da equação x - 2 = 0?",
+        "alternativa_a": "2", "alternativa_b": "3",
+        "alternativa_c": "-2", "alternativa_d": "0",
+        "gabarito": "A", "explicacao": "x = 2.",
+    }
+    passou, motivo = validar_regras(q)
+    assert passou is True, motivo
+
+
 def test_termos_absolutos_desligado_por_padrao():
     q = {**QUESTAO_OK, "enunciado": "O resultado é sempre 4?"}
     passou, _ = validar_regras(q)
