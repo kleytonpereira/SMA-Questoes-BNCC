@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="SMA-Questoes - Pipeline Multiagente" id="sma-questoes-pipeline">
+    <mxGraphModel dx="900" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="SMA-Questoes — Pipeline Multiagente (LangGraph)" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="10" width="320" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="start" value="START · tema" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="50" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gerador" value="&lt;b&gt;1 · Gerador&lt;/b&gt;&lt;br&gt;qwen3:4b · cria a questao (JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="130" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="validador" value="&lt;b&gt;2 · Validador de Regras&lt;/b&gt;&lt;br&gt;deterministico · sem LLM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="160" y="250" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="verificador" value="&lt;b&gt;3 · Verificador&lt;/b&gt;&lt;br&gt;qwen3:4b · resolve 3x e vota" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="370" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="avaliador" value="&lt;b&gt;4 · Avaliador&lt;/b&gt;&lt;br&gt;qwen3:4b · revisor rigoroso" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="490" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="avaliadorfinal" value="&lt;b&gt;5 · Avaliador Final&lt;/b&gt;&lt;br&gt;qwen3:4b · 2a opiniao" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="610" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="organizador" value="&lt;b&gt;6 · Organizador&lt;/b&gt;&lt;br&gt;qwen3:4b · classifica BNCC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="160" y="730" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="end" value="END · questao entregue" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="850" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note3" value="↺ ate 3 tentativas&lt;br&gt;(reinicia no Gerador)" style="text;html=1;align=left;verticalAlign=middle;fontColor=#D79B00;" vertex="1" parent="1">
+          <mxGeometry x="430" y="495" width="190" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note2" value="↺ ate 2 ciclos;&lt;br&gt;senao entrega com aviso" style="text;html=1;align=left;verticalAlign=middle;fontColor=#D79B00;" vertex="1" parent="1">
+          <mxGeometry x="430" y="615" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="noteretry" value="Setas tracejadas = reprovou →&lt;br&gt;volta ao Gerador com o motivo_rejeicao" style="text;html=1;align=left;verticalAlign=middle;fontColor=#D79B00;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="430" y="250" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="start" target="gerador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_g_v" value="questao (JSON)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="gerador" target="validador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_v_ve" value="regras OK" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="validador" target="verificador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ve_a" value="consistente (3x)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="verificador" target="avaliador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_a_af" value="aprovada / esgotou" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="avaliador" target="avaliadorfinal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_af_o" value="aprovada / fim dos ciclos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="avaliadorfinal" target="organizador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_o_end" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="organizador" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_v" value="reprova" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#D79B00;fontColor=#D79B00;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;" edge="1" parent="1" source="validador" target="gerador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_ve" value="reprova" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#D79B00;fontColor=#D79B00;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" edge="1" parent="1" source="verificador" target="gerador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_a" value="reprova" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#D79B00;fontColor=#D79B00;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.6;entryDx=0;entryDy=0;" edge="1" parent="1" source="avaliador" target="gerador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_af" value="novo ciclo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#D79B00;fontColor=#D79B00;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" edge="1" parent="1" source="avaliadorfinal" target="gerador">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
